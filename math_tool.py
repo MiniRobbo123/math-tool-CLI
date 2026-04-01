@@ -7,13 +7,111 @@ Original file is located at
     https://colab.research.google.com/drive/1Ytog1OpXTcphMLOmHmRRnS9ushhVKHXy
 """
 
+def quadraticSolver(a,b,c):
+  if a == 0:
+    if b == 0:
+      return None, "Invalid input"
+    else:
+      x1 = -c/b
+      x2 = None
+      return x1,x2
+  else:
+    if b**2 - 4*a*c < 0:
+      return None, "No real roots"
+    else:
+      x1 = (-b + (b**2 - 4*a*c)**(1/2))/(2*a)
+      x2 = (-b - (b**2 - 4*a*c)**(1/2))/(2*a)
+      return x1,x2
+
+######################################################################
+
+def calculator(n1, n2, op):
+  n1, n2 = float(n1), float(n2)
+  op = str(op)
+  if (type(n1) == float and type(n2) == float) == True:
+    if op == "+":
+      return n1 + n2
+    elif op == "-":
+      return n1 - n2
+    elif op == "*":
+      return n1 * n2
+    elif op == "/":
+      if n2 == 0:
+        return "Math Error"
+      else:
+        return n1 / n2
+    elif op == "^":
+      if isinstance((n1**n2), complex):
+        return "Math Error: Answer is a complex number"
+      else:
+        return n1**n2
+    else:
+      return "Invalid Operator"
+  else:
+    return "Invalid Input"
+
+
+
+
+def fractions(x):
+  x = x.strip()
+  if x.upper() == "B":
+    return "B"
+  elif "/" in x:
+    n, d = x.split("/")
+    return float(n)/float(d)
+  else:
+    return float(x)
+
+
+
+
+
+######################################################################
+
 def main():
   while True:
     try:
-      firstSel = int(input("Select an option below by typing the corresponding number:\n  1. Quadratic solver\n  2. Exit\n"))
-      if firstSel == 2:
+      firstSel = int(input("Select an option below by typing the corresponding number:\n  1. Calculator\n  2. Quadratic solver\n  3. Exit\n"))
+      if firstSel == 3:
         break
+
+
+
+
       elif firstSel == 1:
+        while True:
+          try:
+            n1 = input("Please input the first number\n  or type \"B\" to go back\n")
+            if n1.upper() == "B":
+              break
+
+            try:
+              n1 = fractions(n1)
+            except ValueError:
+              print("Please input a valid number")
+              continue
+            else:
+              op = str(input("Please input the operator (+, -, *, /, ^)\n"))
+              if op not in ["+","-","*","/","^"]:
+                print("Please input a valid operator")
+                continue
+              try:
+                n2 = fractions(input("Please input the second number\n"))
+              except ValueError:
+                print("Please input a valid number")
+                continue
+              else:
+                ans = calculator(float(n1),float(n2),str(op))
+                print(ans)
+                continue
+          except ValueError:
+            print("Syntax Error")
+
+
+
+
+      elif firstSel == 2:
         while True:
           try:
             quadEqun = (input("Please input \"a, b, c\" from your quadratic equation, f(x) = ax^2 + bx + c,\n  or type \"B\" to go back\n"))
@@ -22,24 +120,23 @@ def main():
             elif len(quadEqun.split(",")) == 3:
               a, b, c = quadEqun.split(",")
               a, b, c = float(a), float(b), float(c)
-              if a == 0:
-                #bx + c = 0
-                if b == 0:
-                  print("invalid input")
-                else:
-                  x = -c/b
-                  print(f"The root of f(x) is x = {x}")
-                  break
+              x1,x2 = quadraticSolver(a,b,c)
+              if x2 == None:
+                print(f"The root of f(x) is:\n  x = {x1}")
+                break
+              if x1 == None:
+                print(x2)
+                break
               else:
-                x1 = (-b + (b**2 - 4*a*c)**(1/2))/(2*a)
-                x2 = (-b - (b**2 - 4*a*c)**(1/2))/(2*a)
                 print(f"The roots of f(x) are:\n  x = {x1},\n  and x = {x2}")
                 break
             else:
               print("Please input the correct format")
           except ValueError:
             print("Please input the correct format")
-      elif firstSel !=1 and firstSel != 2:
+
+
+      elif firstSel !=1 and firstSel != 2 and firstSel != 3:
           print("Please select a valid option")
           pass
 
