@@ -3,10 +3,10 @@
 # Features 
   - Quadratic equation solver
   - Calculator
+  - Binary ⇌ Decimal converter
 # Status
-  Work in progress - adding more features and improving layout
+  Work in progress - adding more features and fixing bugs
 # Changes
-  - Added 'calculator' feature
-  - Fixed wrong errors being given
-  - Fixed incorrect outputs
-  - Tidied up the code
+  - Added factorial to calculator
+  - Calculator continues from previous answer, user can also go back to first number input instead
+  - Added Binary ⇌ Decimal converter
