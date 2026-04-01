@@ -25,33 +25,56 @@ def quadraticSolver(a,b,c):
 
 ######################################################################
 
-def calculator(n1, n2, op):
-  n1, n2 = float(n1), float(n2)
-  op = str(op)
-  if (type(n1) == float and type(n2) == float) == True:
-    if op == "+":
-      return n1 + n2
-    elif op == "-":
-      return n1 - n2
-    elif op == "*":
-      return n1 * n2
-    elif op == "/":
-      if n2 == 0:
-        return "Math Error"
-      else:
-        return n1 / n2
-    elif op == "^":
-      if isinstance((n1**n2), complex):
-        return "Math Error: Answer is a complex number"
-      else:
-        return n1**n2
-    else:
-      return "Invalid Operator"
+def factorial(n):
+  if n == 0:
+    return 1
+  elif n < 0:
+    return "Math Error"
+  elif n % 1 != 0:
+    return "Math Error"
   else:
-    return "Invalid Input"
+    k = n
+    while k > 1:
+      n = n * (k-1)
+      k -= 1
+    return n
 
+######################################################################
 
+def calculator(n1, op, n2 = None):
+  op = str(op)
+  if op == "!":
+    if not isinstance(n1, (int, float)) or n1 < 0 or n1 % 1 != 0:
+        return "Math Error: Factorial input must be a non-negative integer"
+    else:
+      return factorial(int(n1))
 
+  if n2 == None:
+    return "Second number required"
+  else:
+    n1, n2 = float(n1), float(n2)
+    if (type(n1) == float and type(n2) == float) == True:
+      if op == "+":
+        return n1 + n2
+      elif op == "-":
+        return n1 - n2
+      elif op == "*":
+        return n1 * n2
+      elif op == "/":
+        if n2 == 0:
+          return "Math Error"
+        else:
+          return n1 / n2
+      elif op == "^":
+        if isinstance((n1**n2), complex):
+          return "Math Error: Answer is a complex number"
+        else:
+          return n1**n2
+
+      else:
+        return "Invalid Operator"
+    else:
+      return "Invalid Input"
 
 def fractions(x):
   x = x.strip()
@@ -63,47 +86,92 @@ def fractions(x):
   else:
     return float(x)
 
+######################################################################
 
+def binToDec(n):
+  n = list(str(n))
+  if not "1" in n:
+    return None
+  else:
+    while n[0] == "0":
+      n = n[1:]
+    n = str("".join(n))
+    n = int(n,2)
+    return n
 
-
+def decToBin(n):
+  n = int(n)
+  if type(n) != int:
+    return None
+  if n < 0:
+    return None
+  if n % 1 != 0:
+    return None
+  n = bin(n)
+  return n[2:]
 
 ######################################################################
 
 def main():
   while True:
     try:
-      firstSel = int(input("Select an option below by typing the corresponding number:\n  1. Calculator\n  2. Quadratic solver\n  3. Exit\n"))
-      if firstSel == 3:
+      firstSel = int(input("Select an option below by typing the corresponding number:\n  1. Calculator\n  2. Quadratic solver\n  3. Binary Converter\n  4. Exit\n"))
+      if firstSel == 4:
         break
 
 
 
 
       elif firstSel == 1:
+        ans = None
         while True:
           try:
-            n1 = input("Please input the first number\n  or type \"B\" to go back\n")
-            if n1.upper() == "B":
-              break
-
-            try:
-              n1 = fractions(n1)
-            except ValueError:
-              print("Please input a valid number")
-              continue
-            else:
-              op = str(input("Please input the operator (+, -, *, /, ^)\n"))
-              if op not in ["+","-","*","/","^"]:
+            if (ans != None) or (type(ans) == str):
+              op = str(input(f"Please input an operator -> {ans} +, -, *, /, ^, !\n  or type \"B\" to go back\n"))
+              if op.upper() == "B":
+                ans = None
+                continue
+              elif op not in ["+","-","*","/","^","!"]:
                 print("Please input a valid operator")
+                continue
+              elif op == "!":
+                ans = calculator(ans,op)
+                print(f"Answer = {ans}")
                 continue
               try:
                 n2 = fractions(input("Please input the second number\n"))
               except ValueError:
                 print("Please input a valid number")
                 continue
+              ans = calculator((ans),str(op),(n2))
+              print(f"Answer = {ans}")
+              continue
+
+            else:
+              n1 = input("Please input the first number\n  or type \"B\" to go back\n")
+              if n1.upper() == "B":
+                break
+              try:
+                n1 = fractions(n1)
+              except ValueError:
+                print("Please input a valid number")
+                continue
               else:
-                ans = calculator(float(n1),float(n2),str(op))
-                print(ans)
+                op = str(input("Please input the operator (+, -, *, /, ^, !)\n"))
+                if op not in ["+","-","*","/","^","!"]:
+                  print("Please input a valid operator")
+                  continue
+                elif op == "!":
+                  ans = calculator(n1,op)
+                  print(f"Answer = {ans}")
+                  continue
+                try:
+                  n2 = fractions(input("Please input the second number\n"))
+                except ValueError:
+                  print("Please input a valid number")
+                  continue
+                ans = calculator((n1),str(op),(n2))
+                print(f"Answer = {ans}")
                 continue
           except ValueError:
             print("Syntax Error")
@@ -136,7 +204,58 @@ def main():
             print("Please input the correct format")
 
 
-      elif firstSel !=1 and firstSel != 2 and firstSel != 3:
+
+
+
+      elif firstSel == 3:
+        while True:
+          try:
+            binOrDec = int(input("Select an option by typing the corresponding number:\n  1. Binary to Decimal\n  2. Decimal to Binary\n  3. Back\n"))
+            if binOrDec != 1 and binOrDec != 2 and binOrDec != 3:
+              print("Please select a valid option")
+              continue
+            elif binOrDec == 3:
+              break
+            elif binOrDec == 1:
+              while True:
+                try:
+                  binNum = str(input("Please input a binary number\n  Or type \"B\" to go back\n"))
+                  if binNum.upper() == "B":
+                    break
+                  if binToDec(binNum) == None:
+                    print("Invalid input")
+                    continue
+                  else:
+                    print(f"Decimal number = {binToDec(binNum)}")
+                    break
+                except ValueError:
+                  print("Invalid input")
+                  continue
+
+            elif binOrDec == 2:
+              while True:
+                try:
+                  decNum = str(input("Please input a decimal number\n  Or type \"B\" to go back\n"))
+                  if decNum.upper() == "B":
+                    break
+                  if decToBin(decNum) == None:
+                    print("Invalid input")
+                    continue
+                  else:
+                    print(f"Binary number = {decToBin(decNum)}")
+                    break
+                except ValueError:
+                  print("Invalid input")
+                  continue
+
+          except ValueError:
+            print("Please select a valid option")
+            continue
+
+
+
+
+      elif firstSel !=1 and firstSel != 2 and firstSel != 3 and firstSel != 4:
           print("Please select a valid option")
           pass
 
