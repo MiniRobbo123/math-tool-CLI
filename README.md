@@ -5,7 +5,7 @@
   - Calculator
 # Status
   Work in progress - adding more features and improving layout
-#Changes
+# Changes
   - Added 'calculator' feature
   - Fixed wrong errors being given
   - Fixed incorrect outputs
