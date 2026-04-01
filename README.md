@@ -1,12 +1,13 @@
-# Math tool
-  A python based tool for solving mathematical problems
+# Math tool (CLI) - v1.0
+  A python based CLI tool for solving mathematical problems
 # Features 
-  - Quadratic equation solver
   - Calculator
+  - Quadratic equation solver
   - Binary ⇌ Decimal converter
 # Status
-  Work in progress - adding more features and fixing bugs
+  Functional - core features implemented and key edge cases handled
 # Changes
-  - Added factorial to calculator
-  - Calculator continues from previous answer, user can also go back to first number input instead
-  - Added Binary ⇌ Decimal converter
+  - Fixed decimal to binary converter to properly handle float inputs
+  - Fixed binary to decimal converter to handle input "0" correctly
+  - Added support for negative numbers to the power of odd fractions to output real results
+  - Fixed issue causing syntax errors when continuing calculations after a math error
